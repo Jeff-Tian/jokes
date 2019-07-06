@@ -1,7 +1,7 @@
 {
-  "name": "id3",
+  "name": "jokes",
   "version": "1.0.5",
-  "description": "Online demo for id3 classification process: http://id3.jijiyy.me",
+  "description": "jokes",
   "main": "app.js",
   "scripts": {
     "test": "gulp mocha && gulp test",
@@ -9,17 +9,17 @@
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/Jeff-Tian/id3.git"
+    "url": "git+https://github.com/Jeff-Tian/jokes.git"
   },
   "keywords": [
-    "id3"
+    "jokes"
   ],
-  "author": "http://jijiyy.me",
+  "author": "jeff.tian@outlook.com",
   "license": "ISC",
   "bugs": {
-    "url": "https://github.com/Jeff-Tian/id3/issues"
+    "url": "https://github.com/Jeff-Tian/jokes/issues"
   },
-  "homepage": "https://github.com/Jeff-Tian/id3#readme",
+  "homepage": "https://github.com/Jeff-Tian/jokes#readme",
   "dependencies": {
     "body-parser": "^1.15.0",
     "connect-busboy": "0.0.2",

@@ -1,8 +1,8 @@
-# id3
+# jokes
 
-> Online demo for using id3 algorithm to build the decision tree: https://id3.js.org/.
+> Jokes
 
-[![Build Status](https://travis-ci.com/Jeff-Tian/alpha.svg?branch=master)](https://travis-ci.com/Jeff-Tian/alpha)
+[![Build Status](https://travis-ci.com/Jeff-Tian/jokes.svg?branch=master)](https://travis-ci.com/Jeff-Tian/jokes)
 [![Git commit with emojis!](https://img.shields.io/badge/gitmoji-git%20commit%20with%20emojis!-brightgreen.svg)](https://gitmoji.js.org)
 
 ## Run on local machine
@@ -15,10 +15,6 @@ npm start
 ```
 
 Open browser and navigate to: http://localhost:60005/
-
-## Screen shot
-
-![id3 screen shot](./assets/screenshot.png)
 
 ## Contribution
 

@@ -11,7 +11,7 @@ var uglify = require("gulp-uglify"),
 const zhCN = require("./locales/zh");
 const enUS = require("./locales/en");
 
-gulp.task("jshint", function() {
+gulp.task("jshint", function () {
   gulp
     .src(["./www/js/**/*.js", "./tests/**/*.js"])
     .pipe(jshint())
@@ -19,17 +19,16 @@ gulp.task("jshint", function() {
     .pipe(jshint.reporter("fail"));
 });
 
-gulp.task("mocha", function(done) {
+gulp.task("mocha", function (done) {
   sh.exec("mocha", done);
 });
 
-gulp.task("start", function(done) {
+gulp.task("start", function (done) {
   sh.exec("node app.js", done);
 });
 
-gulp.task("test", function(done) {
-  karma.start(
-    {
+gulp.task("test", function (done) {
+  karma.start({
       configFile: __dirname + "/tests/karma.conf.js",
       singleRun: true
     },
@@ -37,14 +36,14 @@ gulp.task("test", function(done) {
   );
 });
 
-gulp.task("bump", function() {
+gulp.task("bump", function () {
   gulp
     .src(["./package.json", "./bower.json"])
     .pipe(bump())
     .pipe(gulp.dest("./"));
 });
 
-gulp.task("clean", function(done) {
+gulp.task("clean", function (done) {
   return gulp
     .src(["dist", "public/templates"], {
       read: false,
@@ -56,10 +55,10 @@ gulp.task("clean", function(done) {
 gulp.task(
   "copy",
   gulp.parallel(
-    function(done) {
+    function (done) {
       return gulp.src(["public/**/*"]).pipe(gulp.dest("dist/"));
     },
-    function(done) {
+    function (done) {
       return gulp.src(["node_modules/gojs/**/*"]).pipe(gulp.dest("dist/gojs"));
     },
     () => {
@@ -67,7 +66,7 @@ gulp.task(
         .src(["node_modules/katex/**/*"])
         .pipe(gulp.dest("dist/lib/katex"));
     },
-    function(done) {
+    function (done) {
       return gulp.src(["locales/**/*"]).pipe(gulp.dest("dist/locales"));
     },
     () => {
@@ -76,23 +75,22 @@ gulp.task(
   )
 );
 
-gulp.task("uglify-js", function(done) {
+gulp.task("uglify-js", function (done) {
   return gulp
     .src("public/scripts/*.js")
     .pipe(uglify())
     .pipe(gulp.dest("dist/scripts"));
 });
 
-gulp.task("uglify-css", function(done) {
+gulp.task("uglify-css", function (done) {
   return gulp
     .src("public/stylesheets/*.css")
     .pipe(uglifyCss())
     .pipe(gulp.dest("dist/stylesheets"));
 });
 
-gulp.task("jade", function(done) {
-  var jadeFiles = [
-    {
+gulp.task("jade", function (done) {
+  var jadeFiles = [{
       src: "./views/index.jade",
       dest: "./dist/",
       locale: zhCN,
@@ -100,16 +98,6 @@ gulp.task("jade", function(done) {
         otherLocaleLink: "/en",
         otherLocale: "en"
       }
-    },
-    {
-      src: "./views/templates/stats.jade",
-      dest: "./dist/templates/",
-      locale: zhCN
-    },
-    {
-      src: "./views/templates/stats.jade",
-      dest: "./dist/templates/en/",
-      locale: enUS
     },
     {
       src: "./views/index.jade",
@@ -121,7 +109,7 @@ gulp.task("jade", function(done) {
       }
     },
     {
-      src: "./views/how.jade",
+      src: "./views/DonaldTrump.jade",
       dest: "./dist/",
       locale: zhCN,
       locals: {
@@ -134,7 +122,7 @@ gulp.task("jade", function(done) {
   return runJade(jadeFiles)(done);
 });
 
-gulp.task("replace", function(done) {
+gulp.task("replace", function (done) {
   var replace = require("gulp-replace");
 
   gulp
@@ -155,18 +143,18 @@ function runJade(jadeFiles) {
   return gulp.parallel(
     ...jadeFiles.map(jf => () =>
       gulp
-        .src(jf.src)
-        .pipe(
-          jade({
-            locals: {
-              __: function(key) {
-                return jf.locale[key];
-              },
-              ...(jf.locals || {})
-            }
-          })
-        )
-        .pipe(gulp.dest(jf.dest))
+      .src(jf.src)
+      .pipe(
+        jade({
+          locals: {
+            __: function (key) {
+              return jf.locale[key];
+            },
+            ...(jf.locals || {})
+          }
+        })
+      )
+      .pipe(gulp.dest(jf.dest))
     )
   );
 }

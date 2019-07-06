@@ -1,16 +1,16 @@
 {
-  "name": "id3",
-  "version": "1.0.4",
-  "description": "Online demo for id3 classification process: http://id3.jijiyy.me",
+  "name": "jokes",
+  "version": "1.0.5",
+  "description": "jokes",
   "main": "app.js",
   "authors": [
-    "http://jijiyy.me"
+    "jeff.tian@outlook.com"
   ],
   "license": "ISC",
   "keywords": [
-    "k-means"
+    "jokes"
   ],
-  "homepage": "http://id3.jijiyy.com",
+  "homepage": "https://jokes.js.org",
   "moduleType": [],
   "ignore": [
     "**/.*",
@@ -21,13 +21,7 @@
     "bower_components"
   ],
   "dependencies": {
-    "jquery": "^2.2.1",
-    "angular": "^1.5.0",
-    "handsontable": "https://github.com/handsontable/handsontable.git#^0.25.0",
-    "angular-translate": "^2.11.0",
-    "angular-sanitize": "^1.5.6"
+    "jquery": "^2.2.1"
   },
-  "resolutions": {
-    "handsontable": "^0.25.0"
-  }
+  "resolutions": {}
 }
