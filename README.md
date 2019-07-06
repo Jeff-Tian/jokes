@@ -3,6 +3,7 @@
 > Jokes
 
 [![Build Status](https://travis-ci.com/Jeff-Tian/jokes.svg?branch=master)](https://travis-ci.com/Jeff-Tian/jokes)
+[![codecov](https://codecov.io/gh/Jeff-Tian/jokes/branch/master/graph/badge.svg)](https://codecov.io/gh/Jeff-Tian/jokes)
 [![Git commit with emojis!](https://img.shields.io/badge/gitmoji-git%20commit%20with%20emojis!-brightgreen.svg)](https://gitmoji.js.org)
 
 ## Run on local machine
