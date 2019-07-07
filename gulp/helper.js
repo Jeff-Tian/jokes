@@ -41,16 +41,16 @@ background-size: cover`)
         return slides
     }
 
-    static joinSlides(folder) {
+    static joinSlides(folder, lastPage = []) {
         const slides = GulpHelper.fullImageSlides(folder).concat(GulpHelper.videoSlides(folder))
 
-        return shuffle(slides).join('\n\n---\n\n')
+        return shuffle(slides).concat(lastPage).join('\n\n---\n\n')
     }
 
-    static generateLinks() {
+    static generateLinks(translate = key => key) {
         const realPath = path.resolve(__dirname, '..', 'assets', 'images')
         const folders = fs.readdirSync(realPath).filter(f => fs.lstatSync(path.resolve(realPath, f)).isDirectory())
 
-        return folders.map(folder => '- [' + folder + '](/' + folder + ')');
+        return ['- [' + (translate('Index') || 'Index') + '](' + translate('/') + ')'].concat(folders.map(folder => '- [' + (translate(folder) || folder) + '](/' + folder + '.html)'));
     }
 }

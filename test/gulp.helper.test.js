@@ -35,6 +35,6 @@ background-size: cover`)
   })
 
   it('generates links', () => {
-    assert.deepStrictEqual(['- [BottleHat](/BottleHat)', '- [DonaldTrump](/DonaldTrump)'], GulpHelper.generateLinks())
+    assert.deepStrictEqual(['- [Index](/)', '- [BottleHat](/BottleHat.html)', '- [DonaldTrump](/DonaldTrump.html)'], GulpHelper.generateLinks())
   })
 });

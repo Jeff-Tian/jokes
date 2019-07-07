@@ -54,9 +54,6 @@ gulp.task("mocha", function (done) {
   sh.exec("mocha", done);
 });
 
-gulp.task("start", function (done) {
-  sh.exec("node app.js", done);
-});
 
 gulp.task("test", function (done) {
   karma.start({
@@ -160,7 +157,9 @@ gulp.task("jade", function (done) {
     locals: {
       otherLocaleLink: '/en',
       otherLocale: 'en',
-      slides: GulpHelper.joinSlides(folder)
+      slides: GulpHelper.joinSlides(folder,
+        GulpHelper.generateLinks(key => zhCN[key]).join('\n')
+      )
     }
   }))).concat(folders.map(folder => ({
     src: './views/templates/slides.jade',
@@ -170,7 +169,9 @@ gulp.task("jade", function (done) {
     locals: {
       otherLocaleLink: '/en',
       otherLocale: 'en',
-      slides: GulpHelper.joinSlides(folder)
+      slides: GulpHelper.joinSlides(folder,
+        GulpHelper.generateLinks(key => enUS[key]).join('\n')
+      )
     }
   })))
 
@@ -217,4 +218,9 @@ function runJade(jadeFiles) {
   );
 }
 
-gulp.task("default", gulp.series("build", "start"));
+gulp.task("start",
+  gulp.series("clean", "replace", "jade", "copy", "uglify-js", "uglify-css", function (done) {
+    sh.exec("node app.js", done);
+  }));
+
+gulp.task("default", gulp.series("start"));
