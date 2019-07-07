@@ -1,0 +1,14 @@
+{
+  "version": 1,
+  "name": "Jokes 笑话合集",
+  "description": "Online Jokes Album",
+  "icons": {
+    "60": "favicons/firefox_app_60x60.png",
+    "128": "favicons/firefox_app_128x128.png",
+    "512": "favicons/firefox_app_512x512.png"
+  },
+  "developer": {
+    "name": "Jeff Tian",
+    "url": "https://jokes.js.org"
+  }
+}
