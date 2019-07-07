@@ -10,6 +10,7 @@ var uglify = require("gulp-uglify"),
   jade = require("gulp-jade");
 const zhCN = require("./locales/zh");
 const enUS = require("./locales/en");
+const fs = require('fs');
 
 gulp.task("jshint", function () {
   gulp
@@ -90,36 +91,27 @@ gulp.task("uglify-css", function (done) {
 });
 
 gulp.task("jade", function (done) {
-  var jadeFiles = [{
-      src: "./views/index.jade",
-      dest: "./dist/",
-      locale: zhCN,
-      locals: {
-        otherLocaleLink: "/en",
-        otherLocale: "en"
-      }
-    },
-    {
-      src: "./views/index.jade",
-      dest: "./dist/en/",
-      locale: enUS,
-      locals: {
-        otherLocaleLink: "/",
-        otherLocale: "zh"
-      }
-    },
-    {
-      src: "./views/DonaldTrump.jade",
-      dest: "./dist/",
-      locale: zhCN,
-      locals: {
-        otherLocaleLink: "/",
-        otherLocale: "zh"
-      }
+  const files = fs.readdirSync('./views/');
+  const jades = files.filter(f => f.endsWith('.jade'))
+  const jadeGulpOptions = jades.map(f => ({
+    src: './views/' + f,
+    dest: './dist/',
+    locale: zhCN,
+    locals: {
+      otherLocaleLink: '/en',
+      otherLocale: 'en'
     }
-  ];
+  })).concat(jades.map(f => ({
+    src: './views/' + f,
+    dest: './dist',
+    locale: enUS,
+    locals: {
+      otherLocaleLink: '/zh',
+      otherLocale: 'zh'
+    }
+  })))
 
-  return runJade(jadeFiles)(done);
+  return runJade(jadeGulpOptions)(done);
 });
 
 gulp.task("replace", function (done) {
