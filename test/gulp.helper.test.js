@@ -12,7 +12,7 @@ describe("GulpHelper", function () {
 
 background-image: url(/assets/images/${folder}/bottle-hat-battle.gif)
 background-position: center middle
-background-size: cover`])
+background-size: contain`])
   });
 
   it('joins all the slides', () => {
@@ -23,7 +23,7 @@ background-size: cover`])
 
 background-image: url(/assets/images/${folder}/donald-trump.gif)
 background-position: center middle
-background-size: cover
+background-size: contain
 
 ---
 
@@ -31,7 +31,7 @@ class: center middle
 
 background-image: url(/assets/images/${folder}/donald-trump.jpg)
 background-position: center middle
-background-size: cover`)
+background-size: contain`)
   })
 
   it('generates links', () => {
