@@ -1,4 +1,5 @@
 var gulp = require("gulp");
+const GulpHelper = require('./gulp/helper')
 var jshint = require("gulp-jshint");
 var sh = require("shelljs");
 var karma = require("karma").server;
@@ -11,6 +12,7 @@ var uglify = require("gulp-uglify"),
 const zhCN = require("./locales/zh");
 const enUS = require("./locales/en");
 const fs = require('fs');
+var rename = require("gulp-rename");
 
 gulp.task("jshint", function () {
   gulp
@@ -93,7 +95,11 @@ gulp.task("uglify-css", function (done) {
 gulp.task("jade", function (done) {
   const files = fs.readdirSync('./views/');
   const jades = files.filter(f => f.endsWith('.jade'))
-  const jadeGulpOptions = jades.map(f => ({
+
+  const slides = fs.readdirSync('./assets/images')
+  const folders = slides.filter(f => fs.lstatSync('./assets/images/' + f).isDirectory())
+
+  const pages = jades.map(f => ({
     src: './views/' + f,
     dest: './dist/',
     locale: zhCN,
@@ -103,15 +109,35 @@ gulp.task("jade", function (done) {
     }
   })).concat(jades.map(f => ({
     src: './views/' + f,
-    dest: './dist',
+    dest: './dist/en',
     locale: enUS,
     locals: {
       otherLocaleLink: '/zh',
       otherLocale: 'zh'
     }
+  }))).concat(folders.map(folder => ({
+    src: './views/templates/slides.jade',
+    dest: './dist',
+    rename: folder + '.html',
+    locale: zhCN,
+    locals: {
+      otherLocaleLink: '/en',
+      otherLocale: 'en',
+      slides: GulpHelper.joinSlides(folder)
+    }
+  }))).concat(folders.map(folder => ({
+    src: './views/templates/slides.jade',
+    dest: './dist',
+    rename: 'en/' + folder + '.html',
+    locale: enUS,
+    locals: {
+      otherLocaleLink: '/en',
+      otherLocale: 'en',
+      slides: GulpHelper.joinSlides(folder)
+    }
   })))
 
-  return runJade(jadeGulpOptions)(done);
+  return runJade(pages)(done);
 });
 
 gulp.task("replace", function (done) {
@@ -133,21 +159,24 @@ gulp.task(
 
 function runJade(jadeFiles) {
   return gulp.parallel(
-    ...jadeFiles.map(jf => () =>
-      gulp
-      .src(jf.src)
-      .pipe(
-        jade({
-          locals: {
-            __: function (key) {
-              return jf.locale[key];
-            },
-            ...(jf.locals || {})
-          }
-        })
-      )
-      .pipe(gulp.dest(jf.dest))
-    )
+    ...jadeFiles.map(jf => () => {
+      const pipes = gulp
+        .src(jf.src)
+        .pipe(
+          jade({
+            locals: {
+              __: function (key) {
+                return jf.locale[key];
+              },
+              ...(jf.locals || {})
+            }
+          })
+        )
+
+      return jf.rename ? pipes
+        .pipe(rename(jf.rename))
+        .pipe(gulp.dest(jf.dest)) : pipes.pipe(gulp.dest(jf.dest))
+    })
   );
 }
 

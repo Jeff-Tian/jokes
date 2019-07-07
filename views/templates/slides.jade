@@ -15,13 +15,9 @@ html
 
 body
     textarea#source.
-        class: center middle
-
-        background-image: url(/assets/images/BattleHat/bottle-hat-battle.gif)
-        background-position: center middle
-        background-size: cover
+        #{slides}
 
 div
     script(src="/assets/scripts/remark.min.js")
-    script(src="/assets/scripts/render-math.js")
     script.
+        var slideshow = remark.create({});

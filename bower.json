@@ -22,6 +22,5 @@
   ],
   "dependencies": {
     "jquery": "^2.2.1"
-  },
-  "resolutions": {}
+  }
 }

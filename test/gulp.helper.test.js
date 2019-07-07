@@ -8,29 +8,29 @@ describe("GulpHelper", function () {
     const folder = 'BottleHat';
     const slide = GulpHelper.fullImageSlides(folder)
 
-    assert(slide === `\t\tclass: center middle
+    assert.deepStrictEqual(slide, [`class: center middle
 
-\t\tbackground-image: url(/assets/images/${folder}/bottle-hat-battle.gif)
-\t\tbackground-position: center middle
-\t\tbackground-size: cover`)
+background-image: url(/assets/images/${folder}/bottle-hat-battle.gif)
+background-position: center middle
+background-size: cover`])
   });
 
   it('joins all the slides', () => {
     const folder = 'DonaldTrump';
-    const slide = GulpHelper.fullImageSlides(folder)
+    const slide = GulpHelper.fullImageSlides(folder).join('\n\n---\n\n')
 
-    assert.ok(slide === `\t\tclass: center middle
+    assert.ok(slide === `class: center middle
 
-\t\tbackground-image: url(/assets/images/${folder}/donald-trump.gif)
-\t\tbackground-position: center middle
-\t\tbackground-size: cover
+background-image: url(/assets/images/${folder}/donald-trump.gif)
+background-position: center middle
+background-size: cover
 
-\t\t---
+---
 
-\t\tclass: center middle
+class: center middle
 
-\t\tbackground-image: url(/assets/images/${folder}/donald-trump.jpg)
-\t\tbackground-position: center middle
-\t\tbackground-size: cover`)
+background-image: url(/assets/images/${folder}/donald-trump.jpg)
+background-position: center middle
+background-size: cover`)
   })
 });
