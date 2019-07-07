@@ -33,4 +33,8 @@ background-image: url(/assets/images/${folder}/donald-trump.jpg)
 background-position: center middle
 background-size: cover`)
   })
+
+  it('generates links', () => {
+    assert.deepStrictEqual(['- [BottleHat](/BottleHat)', '- [DonaldTrump](/DonaldTrump)'], GulpHelper.generateLinks())
+  })
 });

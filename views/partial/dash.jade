@@ -1,2 +1,4 @@
-div.hard.auto-wrap.cmd
-    img(src="/assets/images/donald-trump.jpg")
+div.hard.auto-wrap.cmd(style=(otherLocale == 'zh' ? "display: none;" : "display: block;"))
+    include:md ../../README_zh-CN.md 
+div.hard.auto-wrap.cmd(style=(otherLocale == 'en' ? "display: none;" : "display: block;"))
+    include:md ../../README.md

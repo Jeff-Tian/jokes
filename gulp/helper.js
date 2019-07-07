@@ -46,4 +46,11 @@ background-size: cover`)
 
         return shuffle(slides).join('\n\n---\n\n')
     }
+
+    static generateLinks() {
+        const realPath = path.resolve(__dirname, '..', 'assets', 'images')
+        const folders = fs.readdirSync(realPath).filter(f => fs.lstatSync(path.resolve(realPath, f)).isDirectory())
+
+        return folders.map(folder => '- [' + folder + '](/' + folder + ')');
+    }
 }

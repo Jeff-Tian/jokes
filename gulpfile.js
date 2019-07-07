@@ -13,6 +13,34 @@ const zhCN = require("./locales/zh");
 const enUS = require("./locales/en");
 const fs = require('fs');
 var rename = require("gulp-rename");
+var favicons = require('gulp-favicons');
+
+gulp.task('favicon', () => {
+  return gulp
+    .src('./assets/logo.jpg')
+    .pipe(
+      favicons({
+        appName: 'Jokes 笑话合集',
+        appShortName: 'Jokes',
+        appDescription: 'Online Jokes Album',
+        developerName: 'Jeff Tian',
+        developerURL: 'https://jokes.js.org',
+        background: '#020307',
+        path: 'favicons/',
+        url: 'https://jokes.js.org/',
+        display: 'standalone',
+        orientation: 'portrait',
+        scope: '/',
+        start_url: '/',
+        version: 1.0,
+        logging: false,
+        html: 'index.html',
+        pipeHTML: true,
+        replace: true,
+      })
+    )
+    .pipe(gulp.dest('./dist'));
+})
 
 gulp.task("jshint", function () {
   gulp
@@ -74,6 +102,15 @@ gulp.task(
     },
     () => {
       return gulp.src(["assets/**/*"]).pipe(gulp.dest("dist/assets"));
+    },
+    () => {
+      return gulp.src(['README.md', 'README_zh-CN.md']).pipe(gulp.dest('dist'))
+    },
+    () => {
+      return gulp.src(['README.md', 'README_zh-CN.md']).pipe(gulp.dest('dist/en'))
+    },
+    () => {
+      return gulp.src(['README.md', 'README_zh-CN.md']).pipe(gulp.dest('dist/zh'))
     }
   )
 );
@@ -105,7 +142,7 @@ gulp.task("jade", function (done) {
     locale: zhCN,
     locals: {
       otherLocaleLink: '/en',
-      otherLocale: 'en'
+      otherLocale: 'en',
     }
   })).concat(jades.map(f => ({
     src: './views/' + f,
@@ -113,7 +150,7 @@ gulp.task("jade", function (done) {
     locale: enUS,
     locals: {
       otherLocaleLink: '/zh',
-      otherLocale: 'zh'
+      otherLocale: 'zh',
     }
   }))).concat(folders.map(folder => ({
     src: './views/templates/slides.jade',
@@ -153,8 +190,8 @@ gulp.task("replace", function (done) {
 });
 
 gulp.task(
-  "heroku",
-  gulp.series("clean", "replace", "jade", "copy", "uglify-js", "uglify-css")
+  "build",
+  gulp.series("clean", "replace", "favicon", "jade", "copy", "uglify-js", "uglify-css")
 );
 
 function runJade(jadeFiles) {
@@ -180,4 +217,4 @@ function runJade(jadeFiles) {
   );
 }
 
-gulp.task("default", gulp.series("heroku", "start"));
+gulp.task("default", gulp.series("build", "start"));
