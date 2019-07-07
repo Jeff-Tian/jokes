@@ -133,47 +133,73 @@ gulp.task("jade", function (done) {
   const slides = fs.readdirSync('./assets/images')
   const folders = slides.filter(f => fs.lstatSync('./assets/images/' + f).isDirectory())
 
-  const pages = jades.map(f => ({
-    src: './views/' + f,
-    dest: './dist/',
-    locale: zhCN,
-    locals: {
-      otherLocaleLink: '/en',
-      otherLocale: 'en',
-    }
-  })).concat(jades.map(f => ({
-    src: './views/' + f,
-    dest: './dist/en',
-    locale: enUS,
-    locals: {
-      otherLocaleLink: '/zh',
-      otherLocale: 'zh',
-    }
-  }))).concat(folders.map(folder => ({
-    src: './views/templates/slides.jade',
-    dest: './dist',
-    rename: folder + '.html',
-    locale: zhCN,
-    locals: {
-      otherLocaleLink: '/en',
-      otherLocale: 'en',
-      slides: GulpHelper.joinSlides(folder,
-        GulpHelper.generateLinks(key => zhCN[key]).join('\n')
-      )
-    }
-  }))).concat(folders.map(folder => ({
-    src: './views/templates/slides.jade',
-    dest: './dist',
-    rename: 'en/' + folder + '.html',
-    locale: enUS,
-    locals: {
-      otherLocaleLink: '/en',
-      otherLocale: 'en',
-      slides: GulpHelper.joinSlides(folder,
-        GulpHelper.generateLinks(key => enUS[key]).join('\n')
-      )
-    }
-  })))
+  const pages = jades
+    .map(f => ({
+      src: './views/' + f,
+      dest: './dist/',
+      locale: zhCN,
+      locals: {
+        otherLocaleLink: '/en',
+        otherLocale: 'en',
+      }
+    }))
+    .concat(jades.map(f => ({
+      src: './views/' + f,
+      dest: './dist/zh',
+      locale: zhCN,
+      locals: {
+        otherLocaleLink: '/en',
+        otherLocale: 'en',
+      }
+    })))
+    .concat(jades.map(f => ({
+      src: './views/' + f,
+      dest: './dist/en',
+      locale: enUS,
+      locals: {
+        otherLocaleLink: '/zh',
+        otherLocale: 'zh',
+      }
+    })))
+    .concat(folders.map(folder => ({
+      src: './views/templates/slides.jade',
+      dest: './dist',
+      rename: folder + '.html',
+      locale: zhCN,
+      locals: {
+        otherLocaleLink: '/en',
+        otherLocale: 'en',
+        slides: GulpHelper.joinSlides(folder,
+          GulpHelper.generateLinks(key => zhCN[key]).join('\n')
+        )
+      }
+    })))
+    .concat(folders.map(folder => ({
+      src: './views/templates/slides.jade',
+      dest: './dist/zh',
+      rename: folder + '.html',
+      locale: zhCN,
+      locals: {
+        otherLocaleLink: '/en',
+        otherLocale: 'en',
+        slides: GulpHelper.joinSlides(folder,
+          GulpHelper.generateLinks(key => zhCN[key]).join('\n')
+        )
+      }
+    })))
+    .concat(folders.map(folder => ({
+      src: './views/templates/slides.jade',
+      dest: './dist',
+      rename: 'en/' + folder + '.html',
+      locale: enUS,
+      locals: {
+        otherLocaleLink: '/en',
+        otherLocale: 'en',
+        slides: GulpHelper.joinSlides(folder,
+          GulpHelper.generateLinks(key => enUS[key]).join('\n')
+        )
+      }
+    })))
 
   return runJade(pages)(done);
 });
