@@ -4,7 +4,7 @@
   "description": "jokes",
   "main": "app.js",
   "scripts": {
-    "test": "gulp mocha && gulp test",
+    "test": "mocha --require intelli-espower-loader && gulp test",
     "start": "gulp"
   },
   "repository": {
@@ -42,6 +42,7 @@
     "gulp-print": "^2.0.1",
     "gulp-replace": "^0.5.4",
     "gulp-uglify": "^1.5.3",
+    "intelli-espower-loader": "^1.0.1",
     "jasmine-core": "^2.4.1",
     "jshint": "^2.9.1",
     "jshint-stylish": "^2.1.0",
@@ -51,11 +52,12 @@
     "karma-phantomjs-launcher": "^1.0.0",
     "mocha": "^6.1.4",
     "phantomjs-prebuilt": "^2.1.5",
+    "power-assert": "^1.6.1",
     "run-sequence": "latest",
     "shelljs": "^0.6.0"
   },
   "directories": {
-    "test": "tests"
+    "test": "test"
   },
   "files": [
     "public/scripts/virtual-js/id3-math.js"
