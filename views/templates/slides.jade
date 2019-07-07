@@ -17,5 +17,7 @@ body
 div
     script(src="/assets/scripts/remark.min.js")
     script.
-        var slideshow = remark.create({});
+        var w=Math.max(document.documentElement.clientWidth,window.innerWidth||0)||908;
+        var h=Math.max(document.documentElement.clientHeight,window.innerHeight||0)||681;
+        var slideshow = remark.create({ratio:w+':'+h});
     include ../partial/track.jade

@@ -19,7 +19,7 @@ module.exports = class GulpHelper {
 
 background-image: url(/assets/images/${folder}/${image})
 background-position: center middle
-background-size: cover`)
+background-size: contain`)
 
         return slides
     }
