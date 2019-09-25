@@ -42,7 +42,10 @@ background-size: contain`)
     }
 
     static joinSlides(folder, lastPage = []) {
+        console.log('folder = ', folder)
         const slides = GulpHelper.fullImageSlides(folder).concat(GulpHelper.videoSlides(folder))
+
+        console.log('slides = ', slides)
 
         return shuffle(slides).concat(lastPage).join('\n\n---\n\n')
     }
