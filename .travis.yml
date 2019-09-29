@@ -8,7 +8,7 @@ install:
 before_script:
   - bower install
 script:
-  - npm test && gulp build
+  - npm test && gulp 
 after_script:
   - npminstall codecov && codecov
 deploy:

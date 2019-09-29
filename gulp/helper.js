@@ -14,6 +14,7 @@ function shuffle(a) {
 module.exports = class GulpHelper {
     static fullImageSlides(folder) {
         const realPath = path.resolve(__dirname, '..', 'assets', 'images', folder)
+        if (!fs.existsSync(realPath)) { return [] }
         const images = fs.readdirSync(realPath)
         const slides = images.map(image => `class: center middle
 
@@ -47,7 +48,7 @@ background-size: contain`)
 
         console.log('slides = ', slides)
 
-        return shuffle(slides).concat(lastPage).join('\n\n---\n\n')
+        return slides.concat(lastPage).join('\n\n---\n\n')
     }
 
     static generateLinks(translate = key => key) {

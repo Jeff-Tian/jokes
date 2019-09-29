@@ -45,7 +45,7 @@ gulp.task("favicon", () => {
     .pipe(gulp.dest("./dist"));
 });
 
-gulp.task("jshint", function() {
+gulp.task("jshint", function () {
   gulp
     .src(["./www/js/**/*.js", "./tests/**/*.js"])
     .pipe(jshint())
@@ -53,11 +53,11 @@ gulp.task("jshint", function() {
     .pipe(jshint.reporter("fail"));
 });
 
-gulp.task("mocha", function(done) {
+gulp.task("mocha", function (done) {
   sh.exec("mocha", done);
 });
 
-gulp.task("test", function(done) {
+gulp.task("test", function (done) {
   karma.start(
     {
       configFile: __dirname + "/tests/karma.conf.js",
@@ -67,14 +67,14 @@ gulp.task("test", function(done) {
   );
 });
 
-gulp.task("bump", function() {
+gulp.task("bump", function () {
   gulp
     .src(["./package.json", "./bower.json"])
     .pipe(bump())
     .pipe(gulp.dest("./"));
 });
 
-gulp.task("clean", function(done) {
+gulp.task("clean", function (done) {
   return gulp
     .src(["dist", "public/templates"], {
       read: false,
@@ -86,10 +86,10 @@ gulp.task("clean", function(done) {
 gulp.task(
   "copy",
   gulp.parallel(
-    function(done) {
+    function (done) {
       return gulp.src(["public/**/*"]).pipe(gulp.dest("dist/"));
     },
-    function(done) {
+    function (done) {
       return gulp.src(["node_modules/gojs/**/*"]).pipe(gulp.dest("dist/gojs"));
     },
     () => {
@@ -97,7 +97,7 @@ gulp.task(
         .src(["node_modules/katex/**/*"])
         .pipe(gulp.dest("dist/lib/katex"));
     },
-    function(done) {
+    function (done) {
       return gulp.src(["locales/**/*"]).pipe(gulp.dest("dist/locales"));
     },
     () => {
@@ -119,28 +119,29 @@ gulp.task(
   )
 );
 
-gulp.task("uglify-js", function(done) {
+gulp.task("uglify-js", function (done) {
   return gulp
     .src("public/scripts/*.js")
     .pipe(uglify())
     .pipe(gulp.dest("dist/scripts"));
 });
 
-gulp.task("uglify-css", function(done) {
+gulp.task("uglify-css", function (done) {
   return gulp
     .src("public/stylesheets/*.css")
     .pipe(uglifyCss())
     .pipe(gulp.dest("dist/stylesheets"));
 });
 
-gulp.task("jade", function(done) {
+gulp.task("jade", function (done) {
   const files = fs.readdirSync("./views/");
   const jades = files.filter(f => f.endsWith(".jade"));
 
   const slides = fs.readdirSync("./assets/images");
-  const folders = slides.filter(f =>
+  const videos = fs.readdirSync("./assets/videos");
+  const folders = [...new Set(slides.filter(f =>
     fs.lstatSync("./assets/images/" + f).isDirectory()
-  );
+  ).concat(videos.filter(f => fs.lstatSync('./assets/videos/' + f).isDirectory())))];
 
   const pages = jades
     .map(f => ({
@@ -149,7 +150,7 @@ gulp.task("jade", function(done) {
       locale: zhCN,
       locals: {
         otherLocaleLink: "/en",
-        otherLocale: "en"
+        otherLocale: "en",
       }
     }))
     .concat(
@@ -159,7 +160,7 @@ gulp.task("jade", function(done) {
         locale: zhCN,
         locals: {
           otherLocaleLink: "/en",
-          otherLocale: "en"
+          otherLocale: "en",
         }
       }))
     )
@@ -170,7 +171,7 @@ gulp.task("jade", function(done) {
         locale: enUS,
         locals: {
           otherLocaleLink: "/zh",
-          otherLocale: "zh"
+          otherLocale: "zh",
         }
       }))
     )
@@ -183,6 +184,7 @@ gulp.task("jade", function(done) {
         locals: {
           otherLocaleLink: "/en",
           otherLocale: "en",
+          titleKey: folder,
           slides: GulpHelper.joinSlides(
             folder,
             GulpHelper.generateLinks(key => zhCN[key]).join("\n")
@@ -196,13 +198,15 @@ gulp.task("jade", function(done) {
         dest: "./dist/zh",
         rename: folder + ".html",
         locale: zhCN,
+        titleKey: folder,
         locals: {
           otherLocaleLink: "/en",
           otherLocale: "en",
           slides: GulpHelper.joinSlides(
             folder,
             GulpHelper.generateLinks(key => zhCN[key]).join("\n")
-          )
+          ),
+          titleKey: folder
         }
       }))
     )
@@ -215,6 +219,7 @@ gulp.task("jade", function(done) {
         locals: {
           otherLocaleLink: "/en",
           otherLocale: "en",
+          titleKey: folder,
           slides: GulpHelper.joinSlides(
             folder,
             GulpHelper.generateLinks(key => enUS[key]).join("\n")
@@ -226,7 +231,7 @@ gulp.task("jade", function(done) {
   return runJade(pages)(done);
 });
 
-gulp.task("replace", function(done) {
+gulp.task("replace", function (done) {
   var replace = require("gulp-replace");
 
   gulp
@@ -243,11 +248,11 @@ gulp.task(
   gulp.series(
     "clean",
     "replace",
+    "favicon",
     "jade",
     "copy",
     "uglify-js",
     "uglify-css",
-    "favicon"
   )
 );
 
@@ -257,10 +262,11 @@ function runJade(jadeFiles) {
       const pipes = gulp.src(jf.src).pipe(
         jade({
           locals: {
-            __: function(key) {
+            __: function (key) {
               return jf.locale[key];
             },
-            ...(jf.locals || {})
+            ...(jf.locals || {}),
+            title: jf.locale[jf.locals.titleKey]
           }
         })
       );
@@ -281,7 +287,7 @@ gulp.task(
     "copy",
     "uglify-js",
     "uglify-css",
-    function(done) {
+    function (done) {
       sh.exec("node app.js", done);
     }
   )
