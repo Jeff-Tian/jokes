@@ -53,7 +53,11 @@ background-size: contain`)
 
     static generateLinks(translate = key => key) {
         const realPath = path.resolve(__dirname, '..', 'assets', 'images')
-        const folders = fs.readdirSync(realPath).filter(f => fs.lstatSync(path.resolve(realPath, f)).isDirectory())
+        const realPathVideos = path.resolve(__dirname, '..', 'assets', 'videos')
+        const folderImages = fs.readdirSync(realPath).filter(f => fs.lstatSync(path.resolve(realPath, f)).isDirectory())
+        const folderVideos = fs.readdirSync(realPathVideos).filter(f => fs.lstatSync(path.resolve(realPathVideos, f)).isDirectory())
+
+        const folders = [...new Set(folderImages.concat(folderVideos))]
 
         return ['- [' + (translate('Index') || 'Index') + '](' + translate('/') + ')'].concat(folders.map(folder => '- [' + (translate(folder) || folder) + '](/' + folder + '.html)'));
     }
