@@ -5,7 +5,9 @@
   "main": "app.js",
   "scripts": {
     "test": "mocha --require intelli-espower-loader && gulp test",
-    "start": "gulp"
+    "start": "gulp",
+    "prepare": "npm run snyk-protect",
+    "snyk-protect": "snyk-protect"
   },
   "repository": {
     "type": "git",
@@ -30,7 +32,8 @@
     "jade": "1.11.0",
     "katex": "^0.10.2",
     "pug": "^2.0.0-alpha3",
-    "semantic-ui": "^2.1.8"
+    "semantic-ui": "^2.1.8",
+    "@snyk/protect": "latest"
   },
   "devDependencies": {
     "gulp": "^4.0.2",
@@ -65,5 +68,6 @@
   },
   "files": [
     "public/scripts/virtual-js/id3-math.js"
-  ]
+  ],
+  "snyk": true
 }
